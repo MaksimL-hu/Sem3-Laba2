@@ -90,21 +90,21 @@ void SortDynamicArrayByAllMethods(DynamicArray<int>* dynamicArray,
 void SortLinkedListByAllMethods(LinkedList<int>* list,
 	double* durationSortingByQuickSort, double* durationSortingByHeapSort, double* durationSortingByMergeSort)
 {
-	DynamicArray<int> copy;
+	LinkedList<int> copy1;
+	LinkedList<int> copy2;
 
-	for (int i = 0; i < list->GetLength(); i++)
+	auto begin = list->ToBegin();
+	auto end = list->ToEnd();
+
+	while (*begin != *end)
 	{
-		copy.Append(list->GetElement(i));
+		copy1.Append(**begin);
+		copy2.Append(**begin);
+		++(*begin);
 	}
 
-	SortSequenceByQuickSort(&copy, durationSortingByQuickSort);
-
-	for (int i = 0; i < list->GetLength(); i++)
-	{
-		copy[i] = list->GetElement(i);
-	}
-
-	SortSequenceByHeapSort(&copy, durationSortingByHeapSort);
+	SortSequenceByQuickSort(&copy1, durationSortingByQuickSort);
+	SortSequenceByHeapSort(&copy2, durationSortingByHeapSort);
 	SortSequenceByMergeSort(list, durationSortingByMergeSort);
 }
 
