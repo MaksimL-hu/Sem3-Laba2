@@ -27,111 +27,48 @@ private:
         size = newSize;
     }
 
-    void Set(int index, T value)
-    {
-        data[index] = value;
-    }
-
-    void Swap(T& a, T& b)
-    {
-        T temp = a;
-        a = b;
-        b = temp;
-    }
-
-    int Separation(int low, int high)
-    {
-        T pivot = data[high];
-        int i = low - 1;
-
-        for (int j = low; j < high; j++)
-        {
-            if (data[j] <= pivot) 
-            {
-                i++;
-                Swap(data[i], data[j]);
-            }
-        }
-
-        i += 1;
-
-        Swap(data[i], data[high]);
-
-        return i;
-    }
-
-    void SiftDown(int n, int i)
-    {
-        int largest = i;
-        int left = 2 * i + 1;
-        int right = 2 * i + 2;
-
-        if (left < n && data[left] > data[largest])
-        {
-            largest = left;
-        }
-
-        if (right < n && data[right] > data[largest])
-        {
-            largest = right;
-        }
-
-        if (largest != i)
-        {
-            Swap(data[i], data[largest]);
-            SiftDown(n, largest);
-        }
-    }
-
-    void Merge(int low, int middle, int high) {
-        int size1 = middle - low + 1;
-        int size2 = high - middle;
-
-        DynamicArray<T> array1(size1);
-        DynamicArray<T> array2(size1);
-
-        for (int i = 0; i < size1; i++)
-        {
-            array1[i] = data[low + i];
-        }
-        for (int i = 0; i < size2; i++)
-        {
-            array2[i] = data[middle + 1 + i];
-        }
-
-        int i = 0, j = 0, k = low;
-
-        while (i < size1 && j < size2) {
-            if (array1[i] <= array2[j]) 
-            {
-                data[k] = array1[i];
-                i++;
-            }
-            else 
-            {
-                data[k] = array2[j];
-                j++;
-            }
-
-            k++;
-        }
-
-        while (i < size1) 
-        {
-            data[k] = array1[i];
-            i++;
-            k++;
-        }
-
-        while (j < size2) 
-        {
-            data[k] = array2[j];
-            j++;
-            k++;
-        }
-    }
-
 public:
+    class DynamicArrayIterator : public Sequence<T>::Iterator {
+    private:
+        T* current;
+
+    public:
+        DynamicArrayIterator(T* current) : current(current) { }
+
+        bool operator==(const typename Sequence<T>::Iterator& other) const override
+        {
+            const DynamicArrayIterator* otherIterator = dynamic_cast<const DynamicArrayIterator*>(&other);
+            return otherIterator && current == otherIterator->current;
+        }
+
+        bool operator!=(const typename Sequence<T>::Iterator& other) const override
+        {
+            return !(*this == other);
+        }
+
+        T& operator*() override
+        {
+            return *current;
+        }
+
+        typename Sequence<T>::Iterator& operator++() override
+        {
+            current++;
+
+            return *this;
+        }
+    };
+
+    typename Sequence<T>::Iterator* ToBegin() override
+    {
+        return new DynamicArrayIterator(data);
+    }
+
+    typename Sequence<T>::Iterator* ToEnd() override
+    {
+        return new DynamicArrayIterator(data + size);
+    }
+
     DynamicArray() : size(0) {}
 
     DynamicArray(T* items, int size)
@@ -172,28 +109,35 @@ public:
         return data[index];
     }
 
-    T GetFirstElement() override
+    T& GetFirstElement() override
     {
         return GetElement(0);
     }
 
-    T GetLastElement() override
+    T& GetLastElement() override
     {
         return GetElement(size - 1);
     }
 
-    T GetElement(int index) override
+    T& GetElement(int index) override
     {
         return data[index];
     }
 
+    void Swap(T& a, T& b) override
+    {
+        T temp = a;
+        a = b;
+        b = temp;
+    }
+
+    void Set(int index, T value) override
+    {
+        data[index] = value;
+    }
+
     DynamicArray<T>* GetSubsequence(int startIndex, int endIndex) override
     {
-        if (startIndex > endIndex)
-        {
-            return NULL;
-        }
-
         int length;
 
         if (endIndex > size)
@@ -255,57 +199,6 @@ public:
         {
             Append(dynamicArray->GetElement(i));
         }
-    }
-
-    void QuickSort(int low, int high) 
-    {
-        if (low < high)
-        {
-            int pivot = Separation(low, high);
-
-            QuickSort(low, pivot - 1);
-            QuickSort(pivot + 1, high);
-        }
-    }
-
-    void QuickSort()
-    {
-        QuickSort(0, size - 1);
-    }
-
-    void HeapSort()
-    {
-        int n = size;
-
-        for (int i = n / 2 - 1; i >= 0; i--)
-        {
-            SiftDown(n, i);
-        }
-
-        for (int i = n - 1; i > 0; i--)
-        {
-            Swap(data[0], data[i]);
-
-            SiftDown(i, 0);
-        }
-    }
-
-    void MergeSort(int low, int high)
-    {
-        if (low < high)
-        {
-            int middle = low + (high - low) / 2;
-
-            MergeSort(low, middle);
-            MergeSort(middle + 1, high);
-
-            Merge(low, middle, high);
-        }
-    }
-
-    void MergeSort()
-    {
-        MergeSort(0, size - 1);
     }
 };
 

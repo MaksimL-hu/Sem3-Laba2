@@ -2,5 +2,6 @@
 #define USER_MENU_H
 
 void OpenMenu();
+void Help();
 
 #endif

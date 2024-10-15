@@ -26,12 +26,12 @@ void GenerateRandomNumbersFile(int count, std::string& fileName)
     outFile.close();
 }
 
-void ReadDynamicArrayFromFile(std::string& fileName, DynamicArray<int>* numbers)
+Sequence<int>& ReadSequenceFromFile(std::string& fileName, Sequence<int>* numbers)
 {
     std::ifstream inFile(fileName);
     if (!inFile) {
         std::cout << "Error opening the file!" << std::endl;
-        return;
+        return *numbers;
     }
 
     int number;
@@ -42,53 +42,35 @@ void ReadDynamicArrayFromFile(std::string& fileName, DynamicArray<int>* numbers)
     }
 
     inFile.close();
+
+    return *numbers;
+}
+
+void ReadDynamicArrayFromFile(std::string& fileName, DynamicArray<int>* numbers)
+{
+    numbers = &dynamic_cast<DynamicArray<int>&>(ReadSequenceFromFile(fileName, numbers));
 }
 
 void ReadLinkedListFromFile(std::string& fileName, LinkedList<int>* numbers)
 {
-    std::ifstream inFile(fileName);
-    if (!inFile) {
-        std::cout << "Error opening the file!" << std::endl;
+    numbers = &dynamic_cast<LinkedList<int>&>(ReadSequenceFromFile(fileName, numbers));
+}
+
+void WriteSequenceToFile(std::string& fileName, Sequence<int>* numbers)
+{
+    std::ofstream outFile(fileName);
+    if (!outFile) {
+        std::cerr << "Error opening the file!" << std::endl;
         return;
     }
 
-    int number;
+    auto begin = numbers->ToBegin();
+    auto end = numbers->ToEnd();
 
-    while (inFile >> number)
+    while (*begin != *end)
     {
-        numbers->Append(number);
-    }
-
-    inFile.close();
-}
-
-void WriteDynamicArrayToFile(std::string& fileName, DynamicArray<int>* numbers)
-{
-    std::ofstream outFile(fileName);
-    if (!outFile) {
-        std::cerr << "Error opening the file!" << std::endl;
-        return;
-    }
-
-    for (int i = 0; i < numbers->GetLength(); ++i) {
-        outFile << numbers->GetElement(i) << std::endl;
-    }
-
-    std::cout << "The numbers have been successfully written to the file " << fileName << std::endl;
-
-    outFile.close();
-}
-
-void WriteLinkedListToFile(std::string& fileName, LinkedList<int>* numbers)
-{
-    std::ofstream outFile(fileName);
-    if (!outFile) {
-        std::cerr << "Error opening the file!" << std::endl;
-        return;
-    }
-
-    for (int i = 0; i < numbers->GetLength(); ++i) {
-        outFile << numbers->GetElement(i) << std::endl;
+        outFile << **begin << std::endl;
+        ++(*begin);
     }
 
     std::cout << "The numbers have been successfully written to the file " << fileName << std::endl;

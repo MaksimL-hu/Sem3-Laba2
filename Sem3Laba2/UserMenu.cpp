@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 
-
 #include "FileWorker.h"
 #include "Sorter.h"
 #include "Commands.h"
@@ -70,7 +69,7 @@ void OpenMenu()
 
 			if (fileNameOut != declineWord)
 			{
-				WriteDynamicArrayToFile(fileNameOut, &array);
+				WriteSequenceToFile(fileNameOut, &array);
 			}
 		}
 		else if (userInput == sortDynamicArrayByHeapSort)
@@ -94,7 +93,7 @@ void OpenMenu()
 
 			if (fileNameOut != declineWord)
 			{
-				WriteDynamicArrayToFile(fileNameOut, &array);
+				WriteSequenceToFile(fileNameOut, &array);
 			}
 		}
 		else if (userInput == sortDynamicArrayByMergeSort)
@@ -118,7 +117,7 @@ void OpenMenu()
 
 			if (fileNameOut != declineWord)
 			{
-				WriteDynamicArrayToFile(fileNameOut, &array);
+				WriteSequenceToFile(fileNameOut, &array);
 			}
 		}
 		else if (userInput == sortLinkedListByQuickSort)
@@ -142,7 +141,7 @@ void OpenMenu()
 
 			if (fileNameOut != declineWord)
 			{
-				WriteLinkedListToFile(fileNameOut, &list);
+				WriteSequenceToFile(fileNameOut, &list);
 			}
 		}
 		else if (userInput == sortLinkedListByHeapSort)
@@ -166,7 +165,7 @@ void OpenMenu()
 
 			if (fileNameOut != declineWord)
 			{
-				WriteLinkedListToFile(fileNameOut, &list);
+				WriteSequenceToFile(fileNameOut, &list);
 			}
 		}
 		else if (userInput == sortLinkedListByMergeSort)
@@ -190,7 +189,7 @@ void OpenMenu()
 
 			if (fileNameOut != declineWord)
 			{
-				WriteLinkedListToFile(fileNameOut, &list);
+				WriteSequenceToFile(fileNameOut, &list);
 			}
 		}
 		else if (userInput == sortDynamicArrayByAllMethods)
@@ -218,7 +217,7 @@ void OpenMenu()
 
 			if (fileNameOut != declineWord)
 			{
-				WriteDynamicArrayToFile(fileNameOut, &array);
+				WriteSequenceToFile(fileNameOut, &array);
 			}
 		}
 		else if (userInput == sortLinkedListByAllMethods)
@@ -246,9 +245,9 @@ void OpenMenu()
 
 			if (fileNameOut != declineWord)
 			{
-				WriteLinkedListToFile(fileNameOut, &list);
+				WriteSequenceToFile(fileNameOut, &list);
 			}
-			}
+		}
 		else
 		{
 			cout << "Unknown command\n";

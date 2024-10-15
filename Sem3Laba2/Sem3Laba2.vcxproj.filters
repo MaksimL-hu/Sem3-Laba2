@@ -41,14 +41,17 @@
     <ClInclude Include="FileWorker.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Sorter.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="UserMenu.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="Commands.h">
       <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Sorter.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ISorted.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

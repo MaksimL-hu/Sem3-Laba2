@@ -2,6 +2,7 @@
 
 #include "../Sem3Laba2/DynamicArray.h"
 #include "../Sem3Laba2/LinkedList.h"
+#include "../Sem3Laba2/Sorter.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -214,6 +215,24 @@ namespace DynamicArrayTest
 				Assert::IsTrue(dynamicArray1.GetElement(i) == array2[i - size1]);
 			}
 		}
+
+		TEST_METHOD(IteratorTest)
+		{
+			int array[] = { 0,1,2,3,5,6,7,8,9 };
+			int size = 9;
+			DynamicArray<int> dynamicArray(array, size);
+
+			auto begin = dynamicArray.ToBegin();
+			auto end = dynamicArray.ToEnd();
+			int i = 0;
+
+			while (*begin != *end)
+			{
+				Assert::IsTrue(dynamicArray.GetElement(i) == **begin);
+				++(*begin);
+				i++;
+			}
+		}
 	};
 }
 
@@ -225,12 +244,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(QuickSortTest1)
 		{
+			Sorter<int> sorter;
 			int array[] = { 5,3,1,8,9,2,34,-7 };
 			int size = 8;
 			int sortedArray[] = { -7,1,2,3,5,8,9,34 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.QuickSort();
+
+			sorter.QuickSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -240,12 +261,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(QuickSortTest2)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1,2,3,4,5,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.QuickSort();
+
+			sorter.QuickSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -255,12 +278,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(QuickSortTest3)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1,2,3,5,4,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.QuickSort();
+			
+			sorter.QuickSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -270,12 +295,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(QuickSortTest4)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1 };
 			int size = 1;
 			int sortedArray[] = { 1 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.QuickSort();
+			
+			sorter.QuickSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -285,12 +312,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(QuickSortTest5)
 		{
+			Sorter<int> sorter;
 			int array[] = { 8,7,6,5,4,3,2,1 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.QuickSort();
+			
+			sorter.QuickSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -300,6 +329,7 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(QuickSortTest6)
 		{
+			Sorter<int> sorter;
 			int size = 10000;
 			DynamicArray<int> dynamicArray(0);
 
@@ -308,7 +338,7 @@ namespace DynamicArraySortingTest
 				dynamicArray.Append(rand());
 			}
 
-			dynamicArray.QuickSort();
+			sorter.QuickSort(&dynamicArray);
 
 			for (int i = 0; i < size - 1; i++)
 			{
@@ -318,12 +348,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(HeapSortSortTest1)
 		{
+			Sorter<int> sorter;
 			int array[] = { 5,3,1,8,9,2,34,-7 };
 			int size = 8;
 			int sortedArray[] = { -7,1,2,3,5,8,9,34 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.HeapSort();
+
+			sorter.HeapSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -333,12 +365,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(HeapSortTest2)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1,2,3,4,5,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.HeapSort();
+
+			sorter.HeapSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -348,12 +382,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(HeapSortTest3)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1,2,3,5,4,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.HeapSort();
+			
+			sorter.HeapSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -363,12 +399,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(HeapSortTest4)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1 };
 			int size = 1;
 			int sortedArray[] = { 1 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.HeapSort();
+			
+			sorter.HeapSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -378,12 +416,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(HeapSortTest5)
 		{
+			Sorter<int> sorter;
 			int array[] = { 8,7,6,5,4,3,2,1 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.HeapSort();
+			
+			sorter.HeapSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -393,6 +433,7 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(HeapSortTest6)
 		{
+			Sorter<int> sorter;
 			int size = 10000;
 			DynamicArray<int> dynamicArray(0);
 
@@ -401,7 +442,7 @@ namespace DynamicArraySortingTest
 				dynamicArray.Append(rand());
 			}
 
-			dynamicArray.HeapSort();
+			sorter.HeapSort(&dynamicArray);
 
 			for (int i = 0; i < size - 1; i++)
 			{
@@ -411,12 +452,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(MergeSortTest1)
 		{
+			Sorter<int> sorter;
 			int array[] = { 5,3,1,8,9,2,34,-7 };
 			int size = 8;
 			int sortedArray[] = { -7,1,2,3,5,8,9,34 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.MergeSort();
+			
+			sorter.MergeSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -426,12 +469,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(MergeSortTest2)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1,2,3,4,5,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.MergeSort();
+			
+			sorter.MergeSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -441,12 +486,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(MergeSortTest3)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1,2,3,5,4,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.MergeSort();
+			
+			sorter.MergeSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -456,12 +503,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(MergeSortTest4)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1 };
 			int size = 1;
 			int sortedArray[] = { 1 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.MergeSort();
+			
+			sorter.MergeSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -471,12 +520,14 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(MergeSortTest5)
 		{
+			Sorter<int> sorter;
 			int array[] = { 8,7,6,5,4,3,2,1 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			DynamicArray<int> dynamicArray(array, size);
-			dynamicArray.MergeSort();
+			
+			sorter.MergeSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -486,6 +537,7 @@ namespace DynamicArraySortingTest
 
 		TEST_METHOD(MergeSortTest6)
 		{
+			Sorter<int> sorter;
 			int size = 10000;
 			DynamicArray<int> dynamicArray(0);
 
@@ -494,7 +546,7 @@ namespace DynamicArraySortingTest
 				dynamicArray.Append(rand());
 			}
 
-			dynamicArray.MergeSort();
+			sorter.MergeSort(&dynamicArray);
 
 			for (int i = 0; i < size - 1; i++)
 			{
@@ -688,6 +740,24 @@ namespace LinkedListTest
 				Assert::IsTrue(list1.GetElement(i) == array2[i - size1]);
 			}
 		}
+
+		TEST_METHOD(IteratorTest)
+		{
+			int array[] = { 0,1,2,3,5,6,7,8,9 };
+			int size = 9;
+			LinkedList<int> dynamicArray(array, size);
+
+			auto begin = dynamicArray.ToBegin();
+			auto end = dynamicArray.ToEnd();
+			int i = 0;
+
+			while (*begin != *end)
+			{
+				Assert::IsTrue(dynamicArray.GetElement(i) == **begin);
+				++(*begin);
+				i++;
+			}
+		}
 	};
 }
 
@@ -699,12 +769,14 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(QuickSortTest1)
 		{
+			Sorter<int> sorter;
 			int array[] = { 5,3,1,8,9,2,34,-7 };
 			int size = 8;
 			int sortedArray[] = { -7,1,2,3,5,8,9,34 };
 
 			LinkedList<int> list(array, size);
-			list.QuickSort();
+
+			sorter.QuickSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -714,27 +786,31 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(QuickSortTest2)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1,2,3,4,5,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
-			LinkedList<int> lsit(array, size);
-			lsit.QuickSort();
+			LinkedList<int> list(array, size);
+			
+			sorter.QuickSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(lsit.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(QuickSortTest3)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1,2,3,5,4,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			LinkedList<int> list(array, size);
-			list.QuickSort();
+			
+			sorter.QuickSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -744,12 +820,14 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(QuickSortTest4)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1 };
 			int size = 1;
 			int sortedArray[] = { 1 };
 
 			LinkedList<int> list(array, size);
-			list.QuickSort();
+			
+			sorter.QuickSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -759,12 +837,14 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(QuickSortTest5)
 		{
+			Sorter<int> sorter;
 			int array[] = { 8,7,6,5,4,3,2,1 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			LinkedList<int> list(array, size);
-			list.QuickSort();
+			
+			sorter.QuickSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -774,6 +854,7 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(QuickSortTest6)
 		{
+			Sorter<int> sorter;
 			int size = 10000;
 			LinkedList<int> list;
 
@@ -782,7 +863,7 @@ namespace LinkedListSortingTest
 				list.Append(rand());
 			}
 
-			list.QuickSort();
+			sorter.QuickSort(&list);
 
 			for (int i = 0; i < size - 1; i++)
 			{
@@ -792,12 +873,14 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(HeapSortSortTest1)
 		{
+			Sorter<int> sorter;
 			int array[] = { 5,3,1,8,9,2,34,-7 };
 			int size = 8;
 			int sortedArray[] = { -7,1,2,3,5,8,9,34 };
 
 			LinkedList<int> list(array, size);
-			list.HeapSort();
+			
+			sorter.HeapSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -807,12 +890,14 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(HeapSortTest2)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1,2,3,4,5,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			LinkedList<int> list(array, size);
-			list.HeapSort();
+			
+			sorter.HeapSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -822,12 +907,14 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(HeapSortTest3)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1,2,3,5,4,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			LinkedList<int> list(array, size);
-			list.HeapSort();
+			
+			sorter.HeapSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -837,12 +924,14 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(HeapSortTest4)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1 };
 			int size = 1;
 			int sortedArray[] = { 1 };
 
 			LinkedList<int> list(array, size);
-			list.HeapSort();
+			
+			sorter.HeapSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -852,12 +941,14 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(HeapSortTest5)
 		{
+			Sorter<int> sorter;
 			int array[] = { 8,7,6,5,4,3,2,1 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			LinkedList<int> list(array, size);
-			list.HeapSort();
+			
+			sorter.HeapSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -867,6 +958,7 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(HeapSortTest6)
 		{
+			Sorter<int> sorter;
 			int size = 10000;
 			LinkedList<int> list;
 
@@ -875,7 +967,7 @@ namespace LinkedListSortingTest
 				list.Append(rand());
 			}
 
-			list.HeapSort();
+			sorter.HeapSort(&list);
 
 			for (int i = 0; i < size - 1; i++)
 			{
@@ -885,12 +977,14 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(MergeSortTest1)
 		{
+			Sorter<int> sorter;
 			int array[] = { 5,3,1,8,9,2,34,-7 };
 			int size = 8;
 			int sortedArray[] = { -7,1,2,3,5,8,9,34 };
 
 			LinkedList<int> list(array, size);
-			list.MergeSort();
+			
+			sorter.MergeSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -900,12 +994,14 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(MergeSortTest2)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1,2,3,4,5,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			LinkedList<int> list(array, size);
-			list.MergeSort();
+			
+			sorter.MergeSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -915,12 +1011,14 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(MergeSortTest3)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1,2,3,5,4,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			LinkedList<int> list(array, size);
-			list.MergeSort();
+			
+			sorter.MergeSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -930,12 +1028,14 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(MergeSortTest4)
 		{
+			Sorter<int> sorter;
 			int array[] = { 1 };
 			int size = 1;
 			int sortedArray[] = { 1 };
 
 			LinkedList<int> list(array, size);
-			list.MergeSort();
+			
+			sorter.MergeSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -945,12 +1045,14 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(MergeSortTest5)
 		{
+			Sorter<int> sorter;
 			int array[] = { 8,7,6,5,4,3,2,1 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
 			LinkedList<int> list(array, size);
-			list.MergeSort();
+			
+			sorter.MergeSort(&list);
 
 			for (int i = 0; i < size; i++)
 			{
@@ -960,6 +1062,7 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(MergeSortTest6)
 		{
+			Sorter<int> sorter;
 			int size = 10000;
 			LinkedList<int> list;
 
@@ -968,7 +1071,7 @@ namespace LinkedListSortingTest
 				list.Append(rand());
 			}
 
-			list.MergeSort();
+			sorter.MergeSort(&list);
 
 			for (int i = 0; i < size - 1; i++)
 			{

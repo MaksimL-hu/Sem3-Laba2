@@ -1,7 +1,7 @@
-#include <fstream>
-
 #ifndef COMMANDS_H
 #define COMMANDS_H
+
+#include <fstream>
 
 
 const static std::string helpCommand = "help";
