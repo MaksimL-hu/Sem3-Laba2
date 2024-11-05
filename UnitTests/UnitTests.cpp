@@ -2,9 +2,31 @@
 
 #include "../Sem3Laba2/DynamicArray.h"
 #include "../Sem3Laba2/LinkedList.h"
-#include "../Sem3Laba2/Sorter.h"
+#include "../Sem3Laba2/SorterMethods.h"
+#include "../Sem3Laba2/Sequence.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+template<typename T>
+void QuickSort(Sequence<T>* sequence)
+{
+	double duration = 0;
+	SortSequenceByQuickSort(sequence, &duration);
+}
+
+template<typename T>
+void HeapSort(Sequence<T>* sequence)
+{
+	double duration = 0;
+	SortSequenceByHeapSort(sequence, &duration);
+}
+
+template<typename T>
+void MergeSort(Sequence<T>* sequence)
+{
+	double duration = 0;
+	SortSequenceByMergeSort(sequence, &duration);
+}
 
 namespace DynamicArrayTest
 {
@@ -72,7 +94,6 @@ namespace DynamicArrayTest
 
 			Assert::IsTrue(dynamicArray.GetFirstElement() == array[0]);
 			Assert::IsTrue(dynamicArray.GetLastElement() == array[size - 1]);
-
 		}
 
 		TEST_METHOD(GetSubsequencesTests)
@@ -231,326 +252,6 @@ namespace DynamicArrayTest
 				Assert::IsTrue(dynamicArray.GetElement(i) == **begin);
 				++(*begin);
 				i++;
-			}
-		}
-	};
-}
-
-namespace DynamicArraySortingTest
-{
-	TEST_CLASS(UnitTests)
-	{
-	public:
-
-		TEST_METHOD(QuickSortTest1)
-		{
-			Sorter<int> sorter;
-			int array[] = { 5,3,1,8,9,2,34,-7 };
-			int size = 8;
-			int sortedArray[] = { -7,1,2,3,5,8,9,34 };
-
-			DynamicArray<int> dynamicArray(array, size);
-
-			sorter.QuickSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(QuickSortTest2)
-		{
-			Sorter<int> sorter;
-			int array[] = { 1,2,3,4,5,6,7,8 };
-			int size = 8;
-			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
-
-			DynamicArray<int> dynamicArray(array, size);
-
-			sorter.QuickSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(QuickSortTest3)
-		{
-			Sorter<int> sorter;
-			int array[] = { 1,2,3,5,4,6,7,8 };
-			int size = 8;
-			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
-
-			DynamicArray<int> dynamicArray(array, size);
-			
-			sorter.QuickSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(QuickSortTest4)
-		{
-			Sorter<int> sorter;
-			int array[] = { 1 };
-			int size = 1;
-			int sortedArray[] = { 1 };
-
-			DynamicArray<int> dynamicArray(array, size);
-			
-			sorter.QuickSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(QuickSortTest5)
-		{
-			Sorter<int> sorter;
-			int array[] = { 8,7,6,5,4,3,2,1 };
-			int size = 8;
-			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
-
-			DynamicArray<int> dynamicArray(array, size);
-			
-			sorter.QuickSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(QuickSortTest6)
-		{
-			Sorter<int> sorter;
-			int size = 10000;
-			DynamicArray<int> dynamicArray(0);
-
-			for (int i = 0; i < size; i++)
-			{
-				dynamicArray.Append(rand());
-			}
-
-			sorter.QuickSort(&dynamicArray);
-
-			for (int i = 0; i < size - 1; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) <= dynamicArray.GetElement(i + 1));
-			}
-		}
-
-		TEST_METHOD(HeapSortSortTest1)
-		{
-			Sorter<int> sorter;
-			int array[] = { 5,3,1,8,9,2,34,-7 };
-			int size = 8;
-			int sortedArray[] = { -7,1,2,3,5,8,9,34 };
-
-			DynamicArray<int> dynamicArray(array, size);
-
-			sorter.HeapSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(HeapSortTest2)
-		{
-			Sorter<int> sorter;
-			int array[] = { 1,2,3,4,5,6,7,8 };
-			int size = 8;
-			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
-
-			DynamicArray<int> dynamicArray(array, size);
-
-			sorter.HeapSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(HeapSortTest3)
-		{
-			Sorter<int> sorter;
-			int array[] = { 1,2,3,5,4,6,7,8 };
-			int size = 8;
-			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
-
-			DynamicArray<int> dynamicArray(array, size);
-			
-			sorter.HeapSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(HeapSortTest4)
-		{
-			Sorter<int> sorter;
-			int array[] = { 1 };
-			int size = 1;
-			int sortedArray[] = { 1 };
-
-			DynamicArray<int> dynamicArray(array, size);
-			
-			sorter.HeapSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(HeapSortTest5)
-		{
-			Sorter<int> sorter;
-			int array[] = { 8,7,6,5,4,3,2,1 };
-			int size = 8;
-			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
-
-			DynamicArray<int> dynamicArray(array, size);
-			
-			sorter.HeapSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(HeapSortTest6)
-		{
-			Sorter<int> sorter;
-			int size = 10000;
-			DynamicArray<int> dynamicArray(0);
-
-			for (int i = 0; i < size; i++)
-			{
-				dynamicArray.Append(rand());
-			}
-
-			sorter.HeapSort(&dynamicArray);
-
-			for (int i = 0; i < size - 1; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) <= dynamicArray.GetElement(i + 1));
-			}
-		}
-
-		TEST_METHOD(MergeSortTest1)
-		{
-			Sorter<int> sorter;
-			int array[] = { 5,3,1,8,9,2,34,-7 };
-			int size = 8;
-			int sortedArray[] = { -7,1,2,3,5,8,9,34 };
-
-			DynamicArray<int> dynamicArray(array, size);
-			
-			sorter.MergeSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(MergeSortTest2)
-		{
-			Sorter<int> sorter;
-			int array[] = { 1,2,3,4,5,6,7,8 };
-			int size = 8;
-			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
-
-			DynamicArray<int> dynamicArray(array, size);
-			
-			sorter.MergeSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(MergeSortTest3)
-		{
-			Sorter<int> sorter;
-			int array[] = { 1,2,3,5,4,6,7,8 };
-			int size = 8;
-			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
-
-			DynamicArray<int> dynamicArray(array, size);
-			
-			sorter.MergeSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(MergeSortTest4)
-		{
-			Sorter<int> sorter;
-			int array[] = { 1 };
-			int size = 1;
-			int sortedArray[] = { 1 };
-
-			DynamicArray<int> dynamicArray(array, size);
-			
-			sorter.MergeSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(MergeSortTest5)
-		{
-			Sorter<int> sorter;
-			int array[] = { 8,7,6,5,4,3,2,1 };
-			int size = 8;
-			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
-
-			DynamicArray<int> dynamicArray(array, size);
-			
-			sorter.MergeSort(&dynamicArray);
-
-			for (int i = 0; i < size; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
-			}
-		}
-
-		TEST_METHOD(MergeSortTest6)
-		{
-			Sorter<int> sorter;
-			int size = 10000;
-			DynamicArray<int> dynamicArray(0);
-
-			for (int i = 0; i < size; i++)
-			{
-				dynamicArray.Append(rand());
-			}
-
-			sorter.MergeSort(&dynamicArray);
-
-			for (int i = 0; i < size - 1; i++)
-			{
-				Assert::IsTrue(dynamicArray.GetElement(i) <= dynamicArray.GetElement(i + 1));
 			}
 		}
 	};
@@ -761,7 +462,7 @@ namespace LinkedListTest
 	};
 }
 
-namespace LinkedListSortingTest
+namespace DynamicArraySortingTest
 {
 	TEST_CLASS(UnitTests)
 	{
@@ -769,313 +470,295 @@ namespace LinkedListSortingTest
 
 		TEST_METHOD(QuickSortTest1)
 		{
-			Sorter<int> sorter;
 			int array[] = { 5,3,1,8,9,2,34,-7 };
 			int size = 8;
 			int sortedArray[] = { -7,1,2,3,5,8,9,34 };
 
-			LinkedList<int> list(array, size);
+			DynamicArray<int> dynamicArray(array, size);
 
-			sorter.QuickSort(&list);
+			QuickSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(QuickSortTest2)
 		{
-			Sorter<int> sorter;
 			int array[] = { 1,2,3,4,5,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
-			LinkedList<int> list(array, size);
-			
-			sorter.QuickSort(&list);
+			DynamicArray<int> dynamicArray(array, size);
+
+			QuickSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(QuickSortTest3)
 		{
-			Sorter<int> sorter;
 			int array[] = { 1,2,3,5,4,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
-			LinkedList<int> list(array, size);
-			
-			sorter.QuickSort(&list);
+			DynamicArray<int> dynamicArray(array, size);
+
+			QuickSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(QuickSortTest4)
 		{
-			Sorter<int> sorter;
 			int array[] = { 1 };
 			int size = 1;
 			int sortedArray[] = { 1 };
 
-			LinkedList<int> list(array, size);
-			
-			sorter.QuickSort(&list);
+			DynamicArray<int> dynamicArray(array, size);
+
+			QuickSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(QuickSortTest5)
 		{
-			Sorter<int> sorter;
 			int array[] = { 8,7,6,5,4,3,2,1 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
-			LinkedList<int> list(array, size);
-			
-			sorter.QuickSort(&list);
+			DynamicArray<int> dynamicArray(array, size);
+
+			QuickSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(QuickSortTest6)
 		{
-			Sorter<int> sorter;
 			int size = 10000;
-			LinkedList<int> list;
+			DynamicArray<int> dynamicArray(0);
 
 			for (int i = 0; i < size; i++)
 			{
-				list.Append(rand());
+				dynamicArray.Append(rand());
 			}
 
-			sorter.QuickSort(&list);
+			QuickSort(&dynamicArray);
 
 			for (int i = 0; i < size - 1; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) <= list.GetElement(i + 1));
+				Assert::IsTrue(dynamicArray.GetElement(i) <= dynamicArray.GetElement(i + 1));
 			}
 		}
 
 		TEST_METHOD(HeapSortSortTest1)
 		{
-			Sorter<int> sorter;
 			int array[] = { 5,3,1,8,9,2,34,-7 };
 			int size = 8;
 			int sortedArray[] = { -7,1,2,3,5,8,9,34 };
 
-			LinkedList<int> list(array, size);
-			
-			sorter.HeapSort(&list);
+			DynamicArray<int> dynamicArray(array, size);
+
+			HeapSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(HeapSortTest2)
 		{
-			Sorter<int> sorter;
 			int array[] = { 1,2,3,4,5,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
-			LinkedList<int> list(array, size);
-			
-			sorter.HeapSort(&list);
+			DynamicArray<int> dynamicArray(array, size);
+
+			HeapSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(HeapSortTest3)
 		{
-			Sorter<int> sorter;
 			int array[] = { 1,2,3,5,4,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
-			LinkedList<int> list(array, size);
-			
-			sorter.HeapSort(&list);
+			DynamicArray<int> dynamicArray(array, size);
+
+			HeapSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(HeapSortTest4)
 		{
-			Sorter<int> sorter;
 			int array[] = { 1 };
 			int size = 1;
 			int sortedArray[] = { 1 };
 
-			LinkedList<int> list(array, size);
-			
-			sorter.HeapSort(&list);
+			DynamicArray<int> dynamicArray(array, size);
+
+			HeapSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(HeapSortTest5)
 		{
-			Sorter<int> sorter;
 			int array[] = { 8,7,6,5,4,3,2,1 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
-			LinkedList<int> list(array, size);
-			
-			sorter.HeapSort(&list);
+			DynamicArray<int> dynamicArray(array, size);
+
+			HeapSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(HeapSortTest6)
 		{
-			Sorter<int> sorter;
 			int size = 10000;
-			LinkedList<int> list;
+			DynamicArray<int> dynamicArray(0);
 
 			for (int i = 0; i < size; i++)
 			{
-				list.Append(rand());
+				dynamicArray.Append(rand());
 			}
 
-			sorter.HeapSort(&list);
+			HeapSort(&dynamicArray);
 
 			for (int i = 0; i < size - 1; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) <= list.GetElement(i + 1));
+				Assert::IsTrue(dynamicArray.GetElement(i) <= dynamicArray.GetElement(i + 1));
 			}
 		}
 
 		TEST_METHOD(MergeSortTest1)
 		{
-			Sorter<int> sorter;
 			int array[] = { 5,3,1,8,9,2,34,-7 };
 			int size = 8;
 			int sortedArray[] = { -7,1,2,3,5,8,9,34 };
 
-			LinkedList<int> list(array, size);
-			
-			sorter.MergeSort(&list);
+			DynamicArray<int> dynamicArray(array, size);
+
+			MergeSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(MergeSortTest2)
 		{
-			Sorter<int> sorter;
 			int array[] = { 1,2,3,4,5,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
-			LinkedList<int> list(array, size);
-			
-			sorter.MergeSort(&list);
+			DynamicArray<int> dynamicArray(array, size);
+
+			MergeSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(MergeSortTest3)
 		{
-			Sorter<int> sorter;
 			int array[] = { 1,2,3,5,4,6,7,8 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
-			LinkedList<int> list(array, size);
-			
-			sorter.MergeSort(&list);
+			DynamicArray<int> dynamicArray(array, size);
+
+			MergeSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(MergeSortTest4)
 		{
-			Sorter<int> sorter;
 			int array[] = { 1 };
 			int size = 1;
 			int sortedArray[] = { 1 };
 
-			LinkedList<int> list(array, size);
-			
-			sorter.MergeSort(&list);
+			DynamicArray<int> dynamicArray(array, size);
+
+			MergeSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(MergeSortTest5)
 		{
-			Sorter<int> sorter;
 			int array[] = { 8,7,6,5,4,3,2,1 };
 			int size = 8;
 			int sortedArray[] = { 1,2,3,4,5,6,7,8 };
 
-			LinkedList<int> list(array, size);
-			
-			sorter.MergeSort(&list);
+			DynamicArray<int> dynamicArray(array, size);
+
+			MergeSort(&dynamicArray);
 
 			for (int i = 0; i < size; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) == sortedArray[i]);
+				Assert::IsTrue(dynamicArray.GetElement(i) == sortedArray[i]);
 			}
 		}
 
 		TEST_METHOD(MergeSortTest6)
 		{
-			Sorter<int> sorter;
 			int size = 10000;
-			LinkedList<int> list;
+			DynamicArray<int> dynamicArray(0);
 
 			for (int i = 0; i < size; i++)
 			{
-				list.Append(rand());
+				dynamicArray.Append(rand());
 			}
 
-			sorter.MergeSort(&list);
+			MergeSort(&dynamicArray);
 
 			for (int i = 0; i < size - 1; i++)
 			{
-				Assert::IsTrue(list.GetElement(i) <= list.GetElement(i + 1));
+				Assert::IsTrue(dynamicArray.GetElement(i) <= dynamicArray.GetElement(i + 1));
 			}
 		}
 	};

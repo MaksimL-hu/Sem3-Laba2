@@ -4,7 +4,6 @@
 #include "Sequence.h"
 #include "DynamicArray.h"
 
-
 template <class T>
 class LinkedList : public Sequence<T>
 {
@@ -198,6 +197,17 @@ public:
         length++;
     }
 
+    void Append(T* data, int dataSize) override
+    {
+        int i = 0;
+
+        while (i < dataSize)
+        {
+            Append(data[i]);
+            i++;
+        }
+    }
+
     void Prepend(T item) override
     {
         Node* newNode = new Node(item, head);
@@ -249,6 +259,5 @@ public:
         }
     }
 };
-
 
 #endif

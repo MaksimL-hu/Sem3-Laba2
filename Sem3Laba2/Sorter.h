@@ -4,22 +4,6 @@
 #include "ISorted.h"
 #include "Sequence.h"
 
-
-void SortSequenceByQuickSort(Sequence<int>* array, double* durationSorting);
-void SortDynamicArrayByQuickSort(DynamicArray<int>* array, double* durationSorting);
-void SortLinkedListByQuickSort(LinkedList<int>* array, double* durationSorting);
-void SortSequenceByHeapSort(Sequence<int>* array, double* durationSorting);
-void SortDynamicArrayByHeapSort(DynamicArray<int>* array, double* durationSorting);
-void SortLinkedListByHeapSort(LinkedList<int>* array, double* durationSorting);
-void SortSequenceByMergeSort(Sequence<int>* array, double* durationSorting);
-void SortDynamicArrayByMergeSort(DynamicArray<int>* array, double* durationSorting);
-void SortLinkedListByMergeSort(LinkedList<int>* array, double* durationSorting);
-void SortDynamicArrayByAllMethods(DynamicArray<int>* dynamicArray,
-    double* durationSortingByQuickSort, double* durationSortingByHeapSort, double* durationSortingByMergeSort);
-void SortLinkedListByAllMethods(LinkedList<int>* list,
-    double* durationSortingByQuickSort, double* durationSortingByHeapSort, double* durationSortingByMergeSort);
-
-
 template <class T>
 class Sorter : public ISorted<T> {
 private:
@@ -72,16 +56,16 @@ private:
         int size1 = middle - low + 1;
         int size2 = high - middle;
 
-        DynamicArray<T> array1;
-        DynamicArray<T> array2;
+        DynamicArray<T> array1(size1);
+        DynamicArray<T> array2(size2);
 
         for (int i = 0; i < size1; i++)
         {
-            array1.Append(sequence->GetElement(low + i));
+            array1[i] = sequence->GetElement(low + i);
         }
         for (int i = 0; i < size2; i++)
         {
-            array2.Append(sequence->GetElement(middle + 1 + i));
+            array2[i] = sequence->GetElement(middle + 1 + i);
         }
 
         int i = 0, j = 0, k = low;

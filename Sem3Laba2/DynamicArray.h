@@ -3,7 +3,6 @@
 
 #include "Sequence.h"
 
-
 template <class T>
 class DynamicArray : public Sequence<T>
 {
@@ -164,14 +163,26 @@ public:
         return new DynamicArray<T>(items, length);
     }
 
-    int GetLength() override 
+    int GetLength() override
     {
         return size;
     }
 
-    void Append(T data) override 
+    void Append(T data) override
     {
         InsertAt(data, size);
+    }
+
+    void Append(T* data, int dataSize) override
+    {
+        int oldSize = size;
+
+        Resize(size + dataSize);
+
+        for (int i = oldSize; i < oldSize + dataSize; i++)
+        {
+            Set(i, data[i - oldSize]);
+        }
     }
 
     void Prepend(T data) override
@@ -201,6 +212,5 @@ public:
         }
     }
 };
-
 
 #endif

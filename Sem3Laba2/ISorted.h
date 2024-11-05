@@ -1,7 +1,6 @@
 #ifndef ISORTED_H
 #define ISORTED_H
 
-
 template <class T>
 class ISorted {
 public:
@@ -10,6 +9,5 @@ public:
     virtual void MergeSort(Sequence<T>* sequence) = 0;
     virtual ~ISorted() {}
 };
-
 
 #endif

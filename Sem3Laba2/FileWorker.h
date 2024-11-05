@@ -3,13 +3,11 @@
 
 #include "DynamicArray.h"
 #include "LinkedList.h"
+#include "People.h"
 
-
-void GenerateRandomNumbersFile(int count, std::string& fileName);
-void ReadDynamicArrayFromFile(std::string& fileName, DynamicArray<int>* numbers);
-void ReadLinkedListFromFile(std::string& fileName, LinkedList<int>* numbers);
-Sequence<int>& ReadSequenceFromFile(std::string& fileName, Sequence<int>* numbers);
-void WriteSequenceToFile(std::string& fileName, Sequence<int>* numbers);
-
+void GenerateRandomFile(int count, std::string& fileName);
+void ReadDynamicArrayFromFile(std::string& fileName, DynamicArray<People>* numbers);
+Sequence<People>& ReadSequenceFromFile(std::string& fileName, Sequence<People>* numbers);
+void WriteSequenceToFile(std::string& fileName, Sequence<People>* numbers);
 
 #endif

@@ -2,9 +2,11 @@
 #include <string>
 
 #include "FileWorker.h"
-#include "Sorter.h"
+#include "SorterMethods.h"
+#include "People.h"
 #include "Commands.h"
 #include "DynamicArray.h"
+#include "GrathBuilder.h"
 
 using namespace std;
 
@@ -14,11 +16,20 @@ void Help()
 		"'" << sortDynamicArrayByQuickSort << "' - Sort DynamicArray by QuickSort\n" <<
 		"'" << sortDynamicArrayByHeapSort << "' - Sort DynamicArray by HeapSort\n" <<
 		"'" << sortDynamicArrayByMergeSort << "' - Sort DynamicArray by MergeSort\n" <<
-		"'" << sortLinkedListByQuickSort << "' - Sort LinkedList by QuickSort\n" <<
-		"'" << sortLinkedListByHeapSort << "' - Sort LinkedList by HeapSort\n" <<
-		"'" << sortLinkedListByMergeSort << "' - Sort LinkedList by MergeSort\n" <<
 		"'" << sortDynamicArrayByAllMethods << "' - Sort DynamicArray by all available methods\n" <<
-		"'" << sortLinkedListByAllMethods << "' - Sort LinkedList by all available methods\n";
+		"'" << plotGrathForQuickSort << "' - Plot grath for QuickSort\n" <<
+		"'" << plotGrathForHeapSort << "' - Plot grath for HeapSort\n" <<
+		"'" << plotGrathForMergeSort << "' - Plot grath for MergeSort\n";
+}
+
+template<typename T>
+void TryWriteToFile(string fileNameOut, string declineWord, DynamicArray<T>* array)
+{
+	if (fileNameOut != declineWord)
+	{
+		std::cout << "Writing data to the file " << fileNameOut << std::endl;
+		WriteSequenceToFile(fileNameOut, array);
+	}
 }
 
 void OpenMenu()
@@ -36,24 +47,24 @@ void OpenMenu()
 		{
 			Help();
 		}
-		else if(userInput == generateFileCommand)
+		else if (userInput == generateFileCommand)
 		{
 			int countNumbers;
 			string fileName;
 
 			cout << "Write file name\n";
 			cin >> fileName;
-			cout << "Write count numbers in file\n";
+			cout << "Write count data in file\n";
 			cin >> countNumbers;
 
-			GenerateRandomNumbersFile(countNumbers, fileName);
+			GenerateRandomFile(countNumbers, fileName);
 		}
 		else if (userInput == sortDynamicArrayByQuickSort)
 		{
 			string fileNameIn;
 			string fileNameOut;
 			string declineWord = "no";
-			DynamicArray<int> array;
+			DynamicArray<People> array;
 			double duration = 0;
 
 			cout << "Write file name to sort\n";
@@ -62,22 +73,22 @@ void OpenMenu()
 			cout << "Write file name to save the result (type no to don't save the result)\n";
 			cin >> fileNameOut;
 
+			std::cout << "Read data from the file " << fileNameIn << std::endl;
 			ReadDynamicArrayFromFile(fileNameIn, &array);
-			SortDynamicArrayByQuickSort(&array, &duration);
 
-			cout << "Sorting spend "<< duration <<" seconds\n";
+			std::cout << "Starting sorting..." << std::endl;
+			SortSequenceByQuickSort(&array, &duration);
 
-			if (fileNameOut != declineWord)
-			{
-				WriteSequenceToFile(fileNameOut, &array);
-			}
+			cout << "Sorting spend " << duration << " seconds\n";
+
+			TryWriteToFile(fileNameOut, declineWord, &array);
 		}
 		else if (userInput == sortDynamicArrayByHeapSort)
 		{
 			string fileNameIn;
 			string fileNameOut;
 			string declineWord = "no";
-			DynamicArray<int> array;
+			DynamicArray<People> array;
 			double duration = 0;
 
 			cout << "Write file name to sort\n";
@@ -86,22 +97,22 @@ void OpenMenu()
 			cout << "Write file name to save the result (type no to don't save the result)\n";
 			cin >> fileNameOut;
 
+			std::cout << "Read data from the file " << fileNameIn << std::endl;
 			ReadDynamicArrayFromFile(fileNameIn, &array);
-			SortDynamicArrayByHeapSort(&array, &duration);
+
+			std::cout << "Starting sorting..." << std::endl;
+			SortSequenceByHeapSort(&array, &duration);
 
 			cout << "Sorting spend " << duration << " seconds\n";
 
-			if (fileNameOut != declineWord)
-			{
-				WriteSequenceToFile(fileNameOut, &array);
-			}
+			TryWriteToFile(fileNameOut, declineWord, &array);
 		}
 		else if (userInput == sortDynamicArrayByMergeSort)
 		{
 			string fileNameIn;
 			string fileNameOut;
 			string declineWord = "no";
-			DynamicArray<int> array;
+			DynamicArray<People> array;
 			double duration = 0;
 
 			cout << "Write file name to sort\n";
@@ -110,94 +121,22 @@ void OpenMenu()
 			cout << "Write file name to save the result (type no to don't save the result)\n";
 			cin >> fileNameOut;
 
+			std::cout << "Read data from the file " << fileNameIn << std::endl;
 			ReadDynamicArrayFromFile(fileNameIn, &array);
-			SortDynamicArrayByMergeSort(&array, &duration);
+
+			std::cout << "Starting sorting..." << std::endl;
+			SortSequenceByMergeSort(&array, &duration);
 
 			cout << "Sorting spend " << duration << " seconds\n";
 
-			if (fileNameOut != declineWord)
-			{
-				WriteSequenceToFile(fileNameOut, &array);
-			}
-		}
-		else if (userInput == sortLinkedListByQuickSort)
-		{
-			string fileNameIn;
-			string fileNameOut;
-			string declineWord = "no";
-			LinkedList<int> list;
-			double duration = 0;
-
-			cout << "Write file name to sort\n";
-			cin >> fileNameIn;
-
-			cout << "Write file name to save the result (type no to don't save the result)\n";
-			cin >> fileNameOut;
-
-			ReadLinkedListFromFile(fileNameIn, &list);
-			SortLinkedListByQuickSort(&list, &duration);
-
-			cout << "Sorting spend " << duration << " seconds\n";
-
-			if (fileNameOut != declineWord)
-			{
-				WriteSequenceToFile(fileNameOut, &list);
-			}
-		}
-		else if (userInput == sortLinkedListByHeapSort)
-		{
-			string fileNameIn;
-			string fileNameOut;
-			string declineWord = "no";
-			LinkedList<int> list;
-			double duration = 0;
-
-			cout << "Write file name to sort\n";
-			cin >> fileNameIn;
-
-			cout << "Write file name to save the result (type no to don't save the result)\n";
-			cin >> fileNameOut;
-
-			ReadLinkedListFromFile(fileNameIn, &list);
-			SortLinkedListByHeapSort(&list, &duration);
-
-			cout << "Sorting spend " << duration << " seconds\n";
-
-			if (fileNameOut != declineWord)
-			{
-				WriteSequenceToFile(fileNameOut, &list);
-			}
-		}
-		else if (userInput == sortLinkedListByMergeSort)
-		{
-			string fileNameIn;
-			string fileNameOut;
-			string declineWord = "no";
-			LinkedList<int> list;
-			double duration = 0;
-
-			cout << "Write file name to sort\n";
-			cin >> fileNameIn;
-
-			cout << "Write file name to save the result (type no to don't save the result)\n";
-			cin >> fileNameOut;
-
-			ReadLinkedListFromFile(fileNameIn, &list);
-			SortLinkedListByMergeSort(&list, &duration);
-
-			cout << "Sorting spend " << duration << " seconds\n";
-
-			if (fileNameOut != declineWord)
-			{
-				WriteSequenceToFile(fileNameOut, &list);
-			}
+			TryWriteToFile(fileNameOut, declineWord, &array);
 		}
 		else if (userInput == sortDynamicArrayByAllMethods)
 		{
 			string fileNameIn;
 			string fileNameOut;
 			string declineWord = "no";
-			DynamicArray<int> array;
+			DynamicArray<People> array;
 			double durationQuickSort = 0;
 			double durationHeapSort = 0;
 			double durationMergeSort = 0;
@@ -208,45 +147,67 @@ void OpenMenu()
 			cout << "Write file name to save the result (type no to don't save the result)\n";
 			cin >> fileNameOut;
 
+			std::cout << "Read data from the file " << fileNameIn << std::endl;
 			ReadDynamicArrayFromFile(fileNameIn, &array);
+
+			std::cout << "Starting sorting..." << std::endl;
 			SortDynamicArrayByAllMethods(&array, &durationQuickSort, &durationHeapSort, &durationMergeSort);
 
 			cout << "QuickSort spend " << durationQuickSort << " seconds\n";
 			cout << "HeapSort spend " << durationHeapSort << " seconds\n";
 			cout << "MergeSort spend " << durationMergeSort << " seconds\n";
 
-			if (fileNameOut != declineWord)
-			{
-				WriteSequenceToFile(fileNameOut, &array);
-			}
+			TryWriteToFile(fileNameOut, declineWord, &array);
 		}
-		else if (userInput == sortLinkedListByAllMethods)
+		else if (userInput == plotGrathForQuickSort || userInput == plotGrathForHeapSort || userInput == plotGrathForMergeSort)
 		{
-			string fileNameIn;
-			string fileNameOut;
-			string declineWord = "no";
-			LinkedList<int> list;
-			double durationQuickSort = 0;
-			double durationHeapSort = 0;
-			double durationMergeSort = 0;
+			const int max = 1000000;
+			const int step = 10000;
 
-			cout << "Write file name to sort\n";
-			cin >> fileNameIn;
+			int iteration = 1;
 
-			cout << "Write file name to save the result (type no to don't save the result)\n";
-			cin >> fileNameOut;
+			DynamicArray<double> x;
+			DynamicArray<double> y;
 
-			ReadLinkedListFromFile(fileNameIn, &list);
-			SortLinkedListByAllMethods(&list, &durationQuickSort, &durationHeapSort, &durationMergeSort);
-
-			cout << "QuickSort spend " << durationQuickSort << " seconds\n";
-			cout << "HeapSort spend " << durationHeapSort << " seconds\n";
-			cout << "MergeSort spend " << durationMergeSort << " seconds\n";
-
-			if (fileNameOut != declineWord)
+			std::string name;
+			
+			for (int i = step; i < max; i+= step)
 			{
-				WriteSequenceToFile(fileNameOut, &list);
+				DynamicArray<People> peoples(i);
+
+				for (int j = 0; j < i; j++)
+				{
+					People people = People();
+					peoples[j] = people;
+				}
+
+				double duration;
+
+				if (userInput == plotGrathForQuickSort)
+				{
+					SortSequenceByQuickSort(&peoples, &duration);
+					name = plotGrathForQuickSort;
+				}
+				else if (userInput == plotGrathForHeapSort)
+				{
+					SortSequenceByHeapSort(&peoples, &duration);
+					name = plotGrathForHeapSort;
+				}
+				else
+				{
+					SortSequenceByMergeSort(&peoples, &duration);
+					name = plotGrathForMergeSort;
+				}
+
+				x.Append(i);
+				y.Append(duration);
+
+				std::cout << iteration << ") Sorting " << i << " elements spend " << duration << std::endl;
+
+				iteration++;
 			}
+
+			PlotGraph(x, y, name);
 		}
 		else
 		{

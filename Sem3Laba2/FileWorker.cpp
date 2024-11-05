@@ -2,78 +2,100 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
+#include <sstream>
 
 #include "DynamicArray.h"
-#include "LinkedList.h"
+#include "People.h"
 
-void GenerateRandomNumbersFile(int count, std::string& fileName) 
+void GenerateRandomFile(int count, std::string& fileName)
 {
-    std::ofstream outFile(fileName);
-    if (!outFile) {
+    std::ofstream file(fileName);
+    if (!file) {
         std::cerr << "Error opening the file!" << std::endl;
         return;
     }
-
-    std::srand(static_cast<unsigned int>(std::time(0)));
 
     for (int i = 0; i < count; ++i) {
-        int randomNumber = std::rand();
-        outFile << randomNumber << std::endl;
+        People people = People();
+
+        file << people.GetLastName() << " "
+            << people.GetFirstName() << " "
+            << people.GetPatronymic() << " "
+            << people.GetBirthDate() << " "
+            << people.GetAccountBalance() << "\n";
     }
 
-    std::cout << "The numbers have been successfully written to the file " << fileName << std::endl;
+    std::cout << "The data have been successfully written to the file " << fileName << std::endl;
 
-    outFile.close();
+    file.close();
 }
 
-Sequence<int>& ReadSequenceFromFile(std::string& fileName, Sequence<int>* numbers)
+Sequence<People>& ReadSequenceFromFile(std::string& fileName, Sequence<People>* sequence)
 {
-    std::ifstream inFile(fileName);
-    if (!inFile) {
+    std::ifstream file(fileName);
+    if (!file) {
         std::cout << "Error opening the file!" << std::endl;
-        return *numbers;
+        return *sequence;
     }
 
-    int number;
+    int numLines = std::count(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>(), '\n');
+    file.seekg(0, std::ios::beg);
 
-    while (inFile >> number)
-    {
-        numbers->Append(number);
+    int i = 0;
+    People* array = new People[numLines];
+    std::string line;
+
+    while (std::getline(file, line)) {
+        std::istringstream iss(line);
+        std::string firstName, lastName, patronymic, birthDate;
+        int accountBalance;
+
+        if (!(iss >> lastName >> firstName >> patronymic >> birthDate >> accountBalance)) {
+            std::cerr << "Error reading line: " << line << std::endl;
+            continue;
+        }
+
+        People person(firstName, lastName, patronymic, birthDate, accountBalance);
+        array[i] = person;
+        i++;
     }
 
-    inFile.close();
+    file.close();
 
-    return *numbers;
+    sequence->Append(array, numLines);
+
+    delete[] array;
+
+    return *sequence;
 }
 
-void ReadDynamicArrayFromFile(std::string& fileName, DynamicArray<int>* numbers)
+void ReadDynamicArrayFromFile(std::string& fileName, DynamicArray<People>* sequence)
 {
-    numbers = &dynamic_cast<DynamicArray<int>&>(ReadSequenceFromFile(fileName, numbers));
+    sequence = &dynamic_cast<DynamicArray<People>&>(ReadSequenceFromFile(fileName, sequence));
 }
 
-void ReadLinkedListFromFile(std::string& fileName, LinkedList<int>* numbers)
+void WriteSequenceToFile(std::string& fileName, Sequence<People>* sequence)
 {
-    numbers = &dynamic_cast<LinkedList<int>&>(ReadSequenceFromFile(fileName, numbers));
-}
-
-void WriteSequenceToFile(std::string& fileName, Sequence<int>* numbers)
-{
-    std::ofstream outFile(fileName);
-    if (!outFile) {
+    std::ofstream file(fileName);
+    if (!file) {
         std::cerr << "Error opening the file!" << std::endl;
         return;
     }
 
-    auto begin = numbers->ToBegin();
-    auto end = numbers->ToEnd();
+    auto begin = sequence->ToBegin();
+    auto end = sequence->ToEnd();
 
     while (*begin != *end)
     {
-        outFile << **begin << std::endl;
+        file << (**begin).GetLastName() << " "
+            << (**begin).GetFirstName() << " "
+            << (**begin).GetPatronymic() << " "
+            << (**begin).GetBirthDate() << " "
+            << (**begin).GetAccountBalance() << "\n";
         ++(*begin);
     }
 
-    std::cout << "The numbers have been successfully written to the file " << fileName << std::endl;
+    std::cout << "The data have been successfully written to the file " << fileName << std::endl;
 
-    outFile.close();
+    file.close();
 }
