@@ -44,6 +44,7 @@ Sequence<People>& ReadSequenceFromFile(std::string& fileName, Sequence<People>* 
     int i = 0;
     People* array = new People[numLines];
     std::string line;
+    int skiped = 0;
 
     while (std::getline(file, line)) {
         std::istringstream iss(line);
@@ -51,18 +52,24 @@ Sequence<People>& ReadSequenceFromFile(std::string& fileName, Sequence<People>* 
         int accountBalance;
 
         if (!(iss >> lastName >> firstName >> patronymic >> birthDate >> accountBalance)) {
-            std::cerr << "Error reading line: " << line << std::endl;
+            std::cout << "Error reading line: " << line << std::endl;
+            sequence->Append(array, i - skiped);
+            delete[] array;
+            array = new People[numLines - i - 1];
+            i++;
+            skiped = i;
             continue;
         }
 
         People person(firstName, lastName, patronymic, birthDate, accountBalance);
-        array[i] = person;
+        array[i - skiped] = person;
         i++;
     }
 
     file.close();
 
-    sequence->Append(array, numLines);
+    sequence->Append(array, numLines - skiped);
+    std::cout << sequence->GetLength() << std::endl;
 
     delete[] array;
 
