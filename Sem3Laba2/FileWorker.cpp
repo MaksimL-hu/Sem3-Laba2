@@ -69,7 +69,7 @@ Sequence<People>& ReadSequenceFromFile(std::string& fileName, Sequence<People>* 
     file.close();
 
     sequence->Append(array, numLines - skiped);
-    std::cout << sequence->GetLength() << std::endl;
+    std::cout << "Count elements " << sequence->GetLength() << std::endl;
 
     delete[] array;
 
