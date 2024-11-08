@@ -8,7 +8,7 @@
 void PlotGraph(DynamicArray<double>& x, DynamicArray<double>& y, std::string name) {
     FILE* gnuplotPipe = _popen("gnuplot -persistent", "w");  // Открываем канал связи с Gnuplot
     if (!gnuplotPipe) {
-        std::cerr << "Не удалось запустить Gnuplot." << std::endl;
+        std::cerr << "Failed to launch Gnuplot." << std::endl;
         return;
     }
 
