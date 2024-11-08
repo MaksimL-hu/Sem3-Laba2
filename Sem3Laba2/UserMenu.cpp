@@ -163,7 +163,7 @@ void OpenMenu()
 		{
 			cout << "Initializing variables\n";
 
-			const int max = 1000000;
+			const int max = 500000;
 			const int step = 10000;
 
 			int iteration = 1;
@@ -171,14 +171,14 @@ void OpenMenu()
 			DynamicArray<double> x;
 			DynamicArray<double> y;
 
-			std::string name;
-
 			cout << "Calculating points for grath\n";
 			
 			for (int i = step; i < max; i+= step)
 			{
+				cout << "Create data\n";
 				DynamicArray<People> peoples(i);
 
+				cout << "Fill data\n";
 				for (int j = 0; j < i; j++)
 				{
 					People people = People();
@@ -187,6 +187,7 @@ void OpenMenu()
 
 				double duration;
 
+				cout << "Sorting\n";
 				if (userInput == plotGrathForQuickSort)
 				{
 					SortSequenceByQuickSort(&peoples, &duration);
@@ -200,6 +201,7 @@ void OpenMenu()
 					SortSequenceByMergeSort(&peoples, &duration);
 				}
 
+				cout << "Append point to array\n";
 				x.Append(i);
 				y.Append(duration);
 
