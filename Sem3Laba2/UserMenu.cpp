@@ -161,6 +161,8 @@ void OpenMenu()
 		}
 		else if (userInput == plotGrathForQuickSort || userInput == plotGrathForHeapSort || userInput == plotGrathForMergeSort)
 		{
+			cout << "Initializing variables\n";
+
 			const int max = 1000000;
 			const int step = 10000;
 
@@ -170,6 +172,8 @@ void OpenMenu()
 			DynamicArray<double> y;
 
 			std::string name;
+
+			cout << "Calculating points for grath\n";
 			
 			for (int i = step; i < max; i+= step)
 			{
@@ -186,17 +190,14 @@ void OpenMenu()
 				if (userInput == plotGrathForQuickSort)
 				{
 					SortSequenceByQuickSort(&peoples, &duration);
-					name = plotGrathForQuickSort;
 				}
 				else if (userInput == plotGrathForHeapSort)
 				{
 					SortSequenceByHeapSort(&peoples, &duration);
-					name = plotGrathForHeapSort;
 				}
 				else
 				{
 					SortSequenceByMergeSort(&peoples, &duration);
-					name = plotGrathForMergeSort;
 				}
 
 				x.Append(i);
@@ -207,7 +208,9 @@ void OpenMenu()
 				iteration++;
 			}
 
-			PlotGraph(x, y, name);
+			cout << "Plot Grath\n";
+
+			PlotGraph(x, y, userInput);
 		}
 		else
 		{
