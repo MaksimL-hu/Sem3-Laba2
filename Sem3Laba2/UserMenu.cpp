@@ -168,8 +168,8 @@ void OpenMenu()
 
 			int iteration = 1;
 
-			DynamicArray<double> x;
-			DynamicArray<double> y;
+			DynamicArray<double> x(0);
+			DynamicArray<double> y(0);
 
 			cout << "Calculating points for grath\n";
 			
