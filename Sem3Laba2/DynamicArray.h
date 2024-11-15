@@ -68,8 +68,6 @@ public:
         return new DynamicArrayIterator(data + size);
     }
 
-    DynamicArray() : size(0) {}
-
     DynamicArray(T* items, int size)
     {
         this->size = size;
@@ -81,7 +79,7 @@ public:
         }
     }
 
-    DynamicArray(int size)
+    DynamicArray(int size = 0)
     {
         this->size = size;
         data = new T[size];
